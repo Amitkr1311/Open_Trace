@@ -11,12 +11,18 @@ if (!MONGO_URI) {
 }
 
 export async function connectDB(): Promise<void> {
+  if (mongoose.connection.readyState >= 1) {
+    return;
+  }
+
   try {
     await mongoose.connect(MONGO_URI as string);
     console.log('Connected to MongoDB successfully');
   } catch (error) {
     console.error(' MongoDB connection error:', error);
-    process.exit(1);
+    if (process.env.NODE_ENV !== 'production') {
+       process.exit(1);
+    }
   }
 
   mongoose.connection.on('error', (err) => {

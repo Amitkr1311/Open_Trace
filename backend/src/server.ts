@@ -11,21 +11,18 @@ import { Event } from './models/Event';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT;
-if (!PORT) {
-  console.error(' FATAL ERROR: PORT is not defined in environment variables.');
-  process.exit(1);
-}
-
-const CORS_ORIGIN = process.env.CORS_ORIGIN;
-if (!CORS_ORIGIN) {
-  console.error(' FATAL ERROR: CORS_ORIGIN is not defined in environment variables.');
-  process.exit(1);
-}
+const PORT = process.env.PORT || 3001;
+const CORS_ORIGIN = process.env.CORS_ORIGIN || '*';
 
 // Security Middleware
 app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use(morgan('combined')); // HTTP request logging
+
+// Ensure DB connection for Serverless environments
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
 
 // Serve tracker script as static file
 app.use(express.static(path.join(__dirname, '../../tracker')));
@@ -209,17 +206,21 @@ app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   res.status(500).json({ error: 'Internal server error' });
 });
 
-// Start server
-async function main(): Promise<void> {
-  await connectDB();
+// Start server (only if not running in a serverless environment like Vercel)
+if (process.env.NODE_ENV !== 'production') {
+  async function main(): Promise<void> {
+    await connectDB();
+    app.listen(PORT, () => {
+      console.log(`🚀 Analytics API running at http://localhost:${PORT}`);
+      console.log(`   Health check: http://localhost:${PORT}/api/health`);
+    });
+  }
 
-  app.listen(PORT, () => {
-    console.log(`🚀 Analytics API running at http://localhost:${PORT}`);
-    console.log(`   Health check: http://localhost:${PORT}/api/health`);
+  main().catch((error) => {
+    console.error('Failed to start server:', error);
+    process.exit(1);
   });
 }
 
-main().catch((error) => {
-  console.error('Failed to start server:', error);
-  process.exit(1);
-});
+// Export for Vercel Serverless Functions
+export default app;
