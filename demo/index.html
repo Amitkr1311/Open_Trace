@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo Site – Home</title>
+  <script src="../tracker/tracker.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #e0e0e0;
+      min-height: 100vh;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    nav .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #6c63ff, #e94bff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    nav .links a {
+      color: #b0b0cc;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav .links a:hover { color: #fff; }
+    nav .links a.active { color: #6c63ff; }
+
+    .hero {
+      text-align: center;
+      padding: 5rem 2rem 3rem;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, #6c63ff, #e94bff, #ff6b6b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #9a9abb;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #6c63ff, #e94bff);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(108, 99, 255, 0.3);
+    }
+    .btn-primary:hover { box-shadow: 0 6px 28px rgba(108, 99, 255, 0.5); }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.08);
+      color: #e0e0e0;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.14); }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem 3rem 4rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.2s;
+    }
+    .card:hover {
+      border-color: rgba(108, 99, 255, 0.4);
+      transform: translateY(-4px);
+    }
+
+    .card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.6rem;
+      color: #fff;
+    }
+
+    .card p {
+      font-size: 0.92rem;
+      color: #8a8ab0;
+      line-height: 1.5;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: #555;
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">CausalFunnel</div>
+    <div class="links">
+      <a href="index.html" class="active">Home</a>
+      <a href="about.html">About</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>User Analytics Demo</h1>
+    <p>Click around this page to generate tracking events. Open the dashboard to see real-time session data and heatmaps.</p>
+    <div class="cta-row">
+      <button class="btn btn-primary" id="cta-get-started">Get Started</button>
+      <button class="btn btn-secondary" id="cta-learn-more">Learn More</button>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="card" id="feature-sessions">
+      <h3>📊 Session Tracking</h3>
+      <p>Every visit creates a unique session. Browse multiple pages and see your journey tracked in real-time.</p>
+    </div>
+    <div class="card" id="feature-clicks">
+      <h3>🖱️ Click Analytics</h3>
+      <p>Each click is captured with precise coordinates, building a visual heatmap of user interactions.</p>
+    </div>
+    <div class="card" id="feature-heatmap">
+      <h3>🔥 Heatmap Visualization</h3>
+      <p>See where users click most frequently with an interactive heatmap overlay on any tracked page.</p>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2026 CausalFunnel Analytics Demo &mdash; Built for testing the tracker script.
+  </footer>
+
+  <script>
+    document.getElementById('cta-get-started').addEventListener('click', () => {
+      alert('🎉 Button clicked! This click has been tracked. Check the dashboard.');
+    });
+    document.getElementById('cta-learn-more').addEventListener('click', () => {
+      window.location.href = 'about.html';
+    });
+  </script>
+  <script>
+    if (window.CausalFunnel) {
+      window.CausalFunnel.init({ endpoint: 'http://localhost:3001/api/events' });
+    }
+  </script>
+</body>
+</html>

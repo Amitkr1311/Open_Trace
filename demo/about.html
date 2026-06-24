@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo Site – About</title>
+  <script src="../tracker/tracker.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #e0e0e0;
+      min-height: 100vh;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    nav .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #6c63ff, #e94bff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    nav .links a {
+      color: #b0b0cc;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav .links a:hover { color: #fff; }
+    nav .links a.active { color: #6c63ff; }
+
+    .content {
+      max-width: 700px;
+      margin: 4rem auto;
+      padding: 0 2rem;
+    }
+
+    .content h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, #e94bff, #6c63ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .content p {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: #9a9abb;
+      margin-bottom: 1.5rem;
+    }
+
+    .content a {
+      color: #6c63ff;
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+    .content a:hover { color: #e94bff; }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .info-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: border-color 0.3s, transform 0.2s;
+      cursor: pointer;
+    }
+    .info-box:hover {
+      border-color: rgba(233, 75, 255, 0.4);
+      transform: translateY(-3px);
+    }
+
+    .info-box h3 {
+      font-size: 1rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-box p {
+      font-size: 0.88rem;
+      color: #7a7a9a;
+      margin-bottom: 0;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2.5rem;
+      padding: 0.7rem 1.6rem;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      color: #b0b0cc;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s;
+    }
+    .back-link:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: #555;
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      margin-top: 4rem;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">CausalFunnel</div>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="about.html" class="active">About</a>
+    </div>
+  </nav>
+
+  <section class="content">
+    <h1>About This Project</h1>
+    <p>
+      This demo site is part of a <strong>User Analytics Application</strong> built to demonstrate real-time session tracking, click analytics, and heatmap generation.
+    </p>
+    <p>
+      Every interaction you make on this page — from scrolling to clicking buttons — is captured by a lightweight tracking script and sent to the analytics backend.
+    </p>
+
+    <div class="info-grid">
+      <div class="info-box" id="about-tracking">
+        <h3>🔍 How Tracking Works</h3>
+        <p>A vanilla JS script captures page views and clicks using sendBeacon API for maximum reliability.</p>
+      </div>
+      <div class="info-box" id="about-privacy">
+        <h3>🔒 Privacy First</h3>
+        <p>No personal data is collected. Only anonymous session IDs and click coordinates are recorded.</p>
+      </div>
+      <div class="info-box" id="about-storage">
+        <h3>💾 Data Storage</h3>
+        <p>Events are stored in MongoDB and can be queried via a RESTful API for dashboard visualizations.</p>
+      </div>
+      <div class="info-box" id="about-dashboard">
+        <h3>📊 Dashboard</h3>
+        <p>A Next.js dashboard provides session timelines and interactive heatmap views of user clicks.</p>
+      </div>
+    </div>
+
+    <a href="index.html" class="back-link">← Back to Home</a>
+  </section>
+
+  <footer>
+    &copy; 2026 CausalFunnel Analytics Demo &mdash; Built for testing the tracker script.
+  </footer>
+  <script>
+    if (window.CausalFunnel) {
+      window.CausalFunnel.init({ endpoint: 'http://localhost:3001/api/events' });
+    }
+  </script>
+</body>
+</html>
